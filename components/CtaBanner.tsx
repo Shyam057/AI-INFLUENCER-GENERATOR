@@ -1,16 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "./providers/AuthProvider";
 import { SparklesIcon, ArrowRightIcon, CheckIcon } from "./icons";
 
 export default function CtaBanner() {
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
+  const { user } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
-      setSubmitted(true);
+    if (user) {
+      router.push("/dashboard");
+    } else if (email.trim()) {
+      router.push(`/sign-up?email=${encodeURIComponent(email.trim())}`);
+    } else {
+      router.push("/sign-up");
     }
   };
 

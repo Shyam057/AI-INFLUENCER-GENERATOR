@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { useAuth } from "./providers/AuthProvider";
 import {
   SparklesIcon,
   ArrowRightIcon,
@@ -15,6 +17,9 @@ import {
 } from "./icons";
 
 export default function Hero() {
+  const { user } = useAuth();
+  const ctaHref = user ? "/dashboard" : "/sign-up";
+
   return (
     <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
       {/* Glow Orbs Background */}
@@ -54,14 +59,14 @@ export default function Hero() {
 
           {/* CTA Cluster */}
           <div className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <a
-              href="#demo"
+            <Link
+              href={ctaHref}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full font-bold text-base text-white bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 shadow-xl shadow-violet-600/30 hover:shadow-violet-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
             >
               <SparklesIcon className="w-5 h-5 text-yellow-300" />
-              <span>Generate Your AI Persona Free</span>
+              <span>{user ? "Open Creator Dashboard" : "Generate Your AI Persona Free"}</span>
               <ArrowRightIcon className="w-4 h-4" />
-            </a>
+            </Link>
             <a
               href="#demo"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full font-semibold text-base text-slate-200 bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:text-white transition-all duration-200 backdrop-blur-md"

@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useAuth } from "./providers/AuthProvider";
 import { CheckIcon, ShieldCheckIcon } from "./icons";
 
 export default function Pricing() {
   const [annualBilling, setAnnualBilling] = useState(true);
+  const { user } = useAuth();
+  const ctaHref = user ? "/dashboard" : "/sign-up";
 
   const tiers = [
     {
@@ -174,12 +178,12 @@ export default function Pricing() {
                 </div>
 
                 <div>
-                  <a
-                    href="#demo"
+                  <Link
+                    href={ctaHref}
                     className={`w-full py-3.5 px-4 rounded-xl font-bold text-sm text-center block transition-all duration-200 ${tier.buttonClass}`}
                   >
                     {tier.cta} &rarr;
-                  </a>
+                  </Link>
                   <p className="text-center text-[11px] text-slate-500 mt-3">
                     No credit card required for 7-day trial
                   </p>

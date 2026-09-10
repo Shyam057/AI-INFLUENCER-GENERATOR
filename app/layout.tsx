@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 export const metadata: Metadata = {
   title: "AuraSync AI • AI Influencer Generator & Auto Post Scheduler",
@@ -29,8 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth h-full">
       <body className="min-h-full flex flex-col bg-[#07080d] text-slate-100 antialiased selection:bg-violet-600 selection:text-white">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
 }
+
