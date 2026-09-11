@@ -319,3 +319,18 @@ function SignUpForm() {
     </div>
   );
 }
+
+export default function SignUpPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#07080d] flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-violet-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <SignUpForm />
+    </Suspense>
+  );
+}
+

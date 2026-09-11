@@ -50,30 +50,23 @@ export default function CtaBanner() {
 
           {/* Fast Launch Form */}
           <div className="mt-10 max-w-md mx-auto">
-            {!submitted ? (
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your work or creator email..."
-                  required
-                  className="w-full px-5 py-3.5 rounded-full bg-black/50 border border-white/15 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-400/20 backdrop-blur-md"
-                />
-                <button
-                  type="submit"
-                  className="sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm text-white bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 hover:scale-105 active:scale-95 shadow-lg shadow-violet-600/30 transition-all duration-200"
-                >
-                  <span>Start Free</span>
-                  <ArrowRightIcon className="w-4 h-4" />
-                </button>
-              </form>
-            ) : (
-              <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm font-medium flex items-center justify-center gap-2">
-                <CheckIcon className="w-5 h-5 text-emerald-400" />
-                <span>Invite sent to {email}! Check your inbox to customize your first persona.</span>
-              </div>
-            )}
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your work or creator email..."
+                required
+                className="w-full px-5 py-3.5 rounded-full bg-black/50 border border-white/15 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-400/20 backdrop-blur-md"
+              />
+              <button
+                type="submit"
+                className="sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm text-white bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 hover:scale-105 active:scale-95 shadow-lg shadow-violet-600/30 transition-all duration-200 cursor-pointer"
+              >
+                <span>{user ? "Go to Dashboard" : "Start Free"}</span>
+                <ArrowRightIcon className="w-4 h-4" />
+              </button>
+            </form>
           </div>
 
           {/* Trust points */}
