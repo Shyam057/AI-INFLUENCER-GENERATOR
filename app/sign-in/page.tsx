@@ -62,7 +62,18 @@ function SignInForm() {
       });
 
       if (error) {
-        setErrorMsg(error.message);
+        const msg = error.message.toLowerCase();
+        if (msg.includes("email not confirmed")) {
+          setErrorMsg(
+            "Your email has not been confirmed yet. Please check your inbox (and spam folder) for the confirmation link from Supabase. Alternatively, you can disable 'Confirm email' in your Supabase Dashboard under Authentication -> Providers -> Email for instant logins."
+          );
+        } else if (msg.includes("invalid login credentials")) {
+          setErrorMsg(
+            "Invalid email or password. If you have not created an account yet, please click 'Sign Up Free' below to register first."
+          );
+        } else {
+          setErrorMsg(error.message);
+        }
         setLoading(false);
         return;
       }

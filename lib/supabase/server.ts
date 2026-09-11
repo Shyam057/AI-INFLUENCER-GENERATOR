@@ -10,7 +10,10 @@ export async function createClient() {
       ? process.env.NEXT_PUBLIC_SUPABASE_URL
       : "https://placeholder-url.supabase.co";
 
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-anon-key";
+  const key =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    "placeholder-anon-key";
 
   return createServerClient(url, key, {
     cookies: {
