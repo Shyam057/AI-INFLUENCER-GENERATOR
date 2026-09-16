@@ -6,6 +6,7 @@ export interface UserProfile {
   email: string;
   full_name: string | null;
   avatar_url: string | null;
+  credits: number;
   created_at: string;
   updated_at: string;
 }
@@ -58,6 +59,7 @@ export async function syncUserToDatabase(
       email: user.email || "",
       full_name: fullName,
       avatar_url: avatarUrl,
+      credits: 300,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };

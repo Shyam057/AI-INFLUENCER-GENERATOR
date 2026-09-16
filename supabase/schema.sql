@@ -9,9 +9,42 @@ create table if not exists public.users (
   email text not null,
   full_name text default '',
   avatar_url text default '',
+  credits integer not null default 300 check (credits >= 0),
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+alter table public.users add column if not exists credits integer not null default 300;
+
+create or replace function public.deduct_generation_credits(generation_cost integer default 50)
+returns integer
+language plpgsql
+security invoker
+set search_path = public
+as $$
+declare
+  remaining_credits integer;
+begin
+  if generation_cost <= 0 then
+    raise exception 'Generation cost must be positive';
+  end if;
+
+  update public.users
+  set credits = credits - generation_cost,
+      updated_at = now()
+  where id = auth.uid()
+    and credits >= generation_cost
+  returning credits into remaining_credits;
+
+  if remaining_credits is null then
+    raise exception 'Not enough credits';
+  end if;
+
+  return remaining_credits;
+end;
+$$;
+
+grant execute on function public.deduct_generation_credits(integer) to authenticated;
 
 -- 2. Enable Row Level Security (RLS)
 alter table public.users enable row level security;
@@ -45,12 +78,13 @@ language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.users (id, email, full_name, avatar_url, created_at, updated_at)
+  insert into public.users (id, email, full_name, avatar_url, credits, created_at, updated_at)
   values (
     new.id,
     coalesce(new.email, ''),
     coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', ''),
     coalesce(new.raw_user_meta_data->>'avatar_url', ''),
+    300,
     now(),
     now()
   )

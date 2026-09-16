@@ -71,20 +71,23 @@ type NavigationItem = (typeof primaryNavigation)[number];
 
 function NavigationLink({
   item,
+  activeHref,
   onClick,
 }: {
   item: NavigationItem;
+  activeHref?: string;
   onClick?: () => void;
 }) {
   const Icon = item.icon;
+  const isActive = activeHref ? item.href === activeHref : item.active;
   return (
     <Link
       href={item.href}
       onClick={onClick}
-      className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${item.active ? "bg-violet-500/12 text-white shadow-[inset_3px_0_0_#a78bfa]" : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-100"}`}
+      className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${isActive ? "bg-violet-500/12 text-white shadow-[inset_3px_0_0_#a78bfa]" : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-100"}`}
     >
       <Icon
-        className={`h-[18px] w-[18px] ${item.active ? "text-violet-300" : "text-slate-500 group-hover:text-slate-300"}`}
+        className={`h-[18px] w-[18px] ${isActive ? "text-violet-300" : "text-slate-500 group-hover:text-slate-300"}`}
       />
       <span>{item.label}</span>
       {item.label === "Content Library" && (
@@ -102,12 +105,14 @@ function Sidebar({
   signOut,
   mobileOpen,
   closeMobile,
+  activeHref,
 }: {
   displayName: string;
   email?: string;
   signOut: () => void;
   mobileOpen: boolean;
   closeMobile: () => void;
+  activeHref?: string;
 }) {
   return (
     <aside
@@ -143,6 +148,7 @@ function Sidebar({
             <NavigationLink
               key={item.label}
               item={item}
+              activeHref={activeHref}
               onClick={closeMobile}
             />
           ))}
@@ -155,6 +161,7 @@ function Sidebar({
             <NavigationLink
               key={item.label}
               item={item}
+              activeHref={activeHref}
               onClick={closeMobile}
             />
           ))}
